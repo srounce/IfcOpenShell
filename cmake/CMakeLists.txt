@@ -21,12 +21,15 @@ cmake_minimum_required (VERSION 2.8.5)
 
 project (IfcOpenShell)
 
+set (CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/modules ${CMAKE_MODULE_PATH})
+
 OPTION(UNICODE_SUPPORT "Build IfcOpenShell with Unicode support (requires ICU)." ON)
 OPTION(COLLADA_SUPPORT "Build IfcConvert with COLLADA support (requires OpenCOLLADA)." ON)
 OPTION(ENABLE_BUILD_OPTIMIZATIONS "Enable certain compiler and linker optimizations on RelWithDebInfo and Release builds." OFF)
 #TODO OPTION(IFCCONVERT_DOUBLE_PRECISION "IfcConvert: Use double precision floating-point numbers." OFF)
 OPTION(USE_IFC4 "Use IFC 4 instead of IFC 2x3 (full rebuild recommended when switching this)" OFF)
 OPTION(BUILD_IFCPYTHON "Build IfcPython." ON)
+OPTION(BUILD_IFCNODE "Build node-ifc." ON)
 OPTION(BUILD_EXAMPLES "Build example applications." ON)
 OPTION(USE_VLD "Use Visual Leak Detector for debugging memory leaks, MSVC-only." OFF)
 # TODO QtViewer is deprecated ATM as it uses the 0.4 API
@@ -413,6 +416,10 @@ TARGET_LINK_LIBRARIES(IfcGeomServer IfcParse IfcGeom ${OPENCASCADE_LIBRARIES} ${
 
 IF(BUILD_IFCPYTHON)
 	ADD_SUBDIRECTORY(../src/ifcwrap ifcwrap)
+ENDIF()
+
+IF(BUILD_IFCNODE)
+	ADD_SUBDIRECTORY(../src/node-ifcopenshell node-ifcopenshell)
 ENDIF()
 
 IF(BUILD_EXAMPLES)
